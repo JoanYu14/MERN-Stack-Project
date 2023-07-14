@@ -8,6 +8,7 @@ const courseRoute = require("./routes").course;
 const Joi = require("joi"); // 使用joi這個package來驗證使用者POST給我們的資料符不符合規定
 const passport = require("passport");
 require("./config/passport")(passport); // require的是一個function，馬上執行這個function且把passport套件帶入參數中
+const cors = require("cors");
 
 // 連接到本機的MongoDB的exampleDB這個database
 mongoose
@@ -24,6 +25,7 @@ mongoose
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use("/api/user", authRoute);
 
