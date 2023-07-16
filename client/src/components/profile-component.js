@@ -1,7 +1,10 @@
-const ProfileComponent = (props) => {
-  let { currentUser, setCurrentUser } = props;
+import { useState, useEffect } from "react";
+import authService from "../services/auth-service";
 
+const ProfileComponent = ({ currentUser, setCurrentUser }) => {
   return (
+    // 如果沒有登入的話getCurrentUset()就沒有東西，那currentUser就仍然是null，null是falsy value
+    // 所以!currentUser會是true，就會執行&&右邊
     <div style={{ padding: "3rem" }}>
       {!currentUser && <div>在獲取您的個人資料之前，您必須先登錄。</div>}
       {currentUser && (

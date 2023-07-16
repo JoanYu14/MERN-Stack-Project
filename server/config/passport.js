@@ -17,7 +17,7 @@ module.exports = (passport) => {
         if (foundUser) {
           return done(null, foundUser); // 把req.user的值設定成foundUser
         } else {
-          return done(null, false);
+          return done(null, false); // 如果沒有找到document的話代表沒這個人，所以驗證失敗
         }
       } catch (e) {
         return done(e, false);
