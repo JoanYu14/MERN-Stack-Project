@@ -68,7 +68,7 @@ router.post("/login", async (req, res) => {
 
   // 每個document都會有comparePasswor這個method。第一個參數是客戶傳來的password，第二個參數是callbackFn
   // 這個method會去執行bcrypt.compare(req.body.password,this.password)
-  // 如果bcrypt.compare出問題的話就會把e帶入error，如果沒有問題的話就會把null帶入err
+  // 如果bcrypt.compare出問題的話就會把e帶入error，如果沒有問題的話就會把null帶入err，然後isMatch會帶入true或false
   foundUser.comparePassword(req.body.password, (err, isMatch) => {
     if (err) {
       // bcrypt.compare沒有問題的話err就會是null，null是falsy value
@@ -84,6 +84,7 @@ router.post("/login", async (req, res) => {
         user: foundUser,
       });
     } else {
+      // 執行到這裡代表isMatch帶入的是false
       return res.status(401).send("密碼錯誤");
     }
   });

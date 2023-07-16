@@ -5,11 +5,13 @@ import HomeComponent from "./components/home-component";
 import RegisterComponent from "./components/register-component";
 import LoginComponent from "./components/login-component";
 import ProfileComponent from "./components/profile-component";
-import authService from "./services/auth-service";
+import AuthService from "./services/auth-service";
+import CourseComponent from "./components/course-component";
 
 function App() {
   // 每次進入網站都會把存在local storagy的資料設為currentUser這個State的值，local storagy沒有key為user的資料的話就會是null
-  let [currentUser, setCurrentUser] = useState(authService.getCurrentUset);
+  // 所以只要沒按下登出的話，local sotragy中就一直會有user這個資料
+  let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
   return (
     <BrowserRouter>
       <Routes>
@@ -34,6 +36,15 @@ function App() {
             path="profile"
             element={
               <ProfileComponent
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+              />
+            }
+          />
+          <Route
+            path="course"
+            element={
+              <CourseComponent
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
               />

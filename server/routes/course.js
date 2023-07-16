@@ -116,6 +116,32 @@ router.get("/", async (req, res) => {
   }
 });
 
+// 用講師id來尋找課程(找這個講師有哪些課程)
+router.get("/instructor/:_instructor_id", async (req, res) => {
+  let { _instructor_id } = req.params;
+  try {
+    // .populate可以讓取得的陣列中的物件(document)的instructor屬性的值從創建此課程的會員的_id變成一個物件
+    // 物件內除了有_id屬性外還有這個_id所對應的users collection(這是在創建courseSchema時設定的)的document的username屬性和eamil屬性
+    let coursesFound = await Course.find({ instructor: _instructor_id })
+      .populate("instructor", ["username", "email"])
+      .exec();
+    return res.send(coursesFound);
+  } catch (e) {
+    return res.status(500).send(e);
+  }
+});
+
+// 用學生id來尋找該學生註冊過的課程
+router.get("/student/:_student_id", async (req, res) => {
+  let { _student_id } = req.params;
+  try {
+    let courseFound = await Course.find({ students: _student_id })
+      .populate("instructor", ["username", "email"])
+      .exec();
+    return res.send(courseFound);
+  } catch (e) {}
+});
+
 // 用課程id尋找課程
 router.get("/:_id", async (req, res) => {
   let { _id } = req.params;

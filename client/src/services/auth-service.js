@@ -1,3 +1,4 @@
+// 跟驗證有關的函式會放在這裡
 import axios from "axios";
 const API_URL = "http://localhost:8080/api/user"; // 後端伺服器的處理user的URL
 

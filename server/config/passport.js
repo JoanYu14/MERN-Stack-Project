@@ -14,10 +14,12 @@ module.exports = (passport) => {
     new JwtStrategy(opts, async function (jwt_payload, done) {
       try {
         let foundUser = await User.findOne({ _id: jwt_payload._id }).exec();
+
         if (foundUser) {
           return done(null, foundUser); // 把req.user的值設定成foundUser
         } else {
-          return done(null, false); // 如果沒有找到document的話代表沒這個人，所以驗證失敗
+          // 如果用jwt_payload._id作為_id的值去尋找user沒找到的話就會得到null或_id不符合規範(catch)也就是JWT被篡改過了，因為我們當初發出去的JWT的內容裡的_id是用登入的會員的_id的值
+          return done(null, false); // 如果沒有找到document的話代這個JWT被篡改過了
         }
       } catch (e) {
         return done(e, false);
