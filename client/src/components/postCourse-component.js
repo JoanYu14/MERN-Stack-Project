@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CourseService from "../services/course.service";
-
+import CourseService from "../services/course-service";
 const PostCourseComponent = (props) => {
   let { currentUser, setCurrentUser } = props;
   let [title, setTitle] = useState("");
@@ -9,6 +8,7 @@ const PostCourseComponent = (props) => {
   let [price, setPrice] = useState(0);
   let [message, setMessage] = useState("");
   const navigate = useNavigate();
+
   const handleTakeToLogin = () => {
     navigate("/login");
   };
@@ -21,7 +21,10 @@ const PostCourseComponent = (props) => {
   const handleChangePrice = (e) => {
     setPrice(e.target.value);
   };
+
+  // 按下交出表單的button時就會執行這個function
   const postCourse = () => {
+    // CourseService.post會用axios.post對server寄出帶著參數資料的POST Request
     CourseService.post(title, description, price)
       .then(() => {
         window.alert("新課程已創建成功");
@@ -29,6 +32,8 @@ const PostCourseComponent = (props) => {
       })
       .catch((error) => {
         console.log(error.response);
+        // 有可能是Joi給的錯誤訊息，代表給的資料不符合規範
+        // 也有可能是伺服器有問題
         setMessage(error.response.data);
       });
   };

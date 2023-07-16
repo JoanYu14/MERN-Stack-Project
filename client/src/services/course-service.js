@@ -60,6 +60,23 @@ class CourseService {
       },
     });
   }
+
+  // 根據課程名稱找到課程
+  getCourseByName(name) {
+    let token;
+
+    if (localStorage.getItem("user")) {
+      token = JSON.parse(localStorage.getItem("user")).token;
+    } else {
+      token = "";
+    }
+
+    return axios.get(API_URL + "/findByName/" + name, {
+      headers: {
+        Authorization: token, // axios會把JWT放在headers的Authorization內，這樣server端的JWT Strategy內的jwt_payload就能取得這個會員相關的資料(jwt的第二部分，username,email)
+      },
+    });
+  }
 }
 
 // import這個檔案就會得到這個Class製作的物件，物件內就有method

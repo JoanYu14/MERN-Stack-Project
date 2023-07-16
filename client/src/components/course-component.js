@@ -67,7 +67,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
             return (
               <div className="card" style={{ width: "18rem", margin: "1rem" }}>
                 <div className="card-body">
-                  <h5 className="card-title">課程名稱{course.title}</h5>
+                  <h5 className="card-title">課程名稱:{course.title}</h5>
                   <p style={{ margin: "0.5rem 0rem" }} className="crad-text">
                     {course.description}
                   </p>

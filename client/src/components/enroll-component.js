@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CourseService from "../services/course.service";
+import CourseService from "../services/course-service";
 
 const EnrollComponent = (props) => {
   let { currentUser, setCurrentUser } = props;
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
-  let [searchResult, setSearchResult] = useState(null);
+  let [searchResult, setSearchResult] = useState(null); // 這個State要存入尋找課程的結果
   const handleTakeToLogin = () => {
     navigate("/login");
   };
   const handleChangeInput = (e) => {
     setSearchInput(e.target.value);
   };
+
+  // 搜尋課程的按鈕被按下時執行此function
   const handleSearch = () => {
     CourseService.getCourseByName(searchInput)
       .then((data) => {
         console.log(data);
-        setSearchResult(data.data);
+        setSearchResult(data.data); // 設定data這個state的值為找到的課程
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((e) => {
+        console.log(e);
       });
   };
   const handleEnroll = (e) => {
@@ -38,18 +40,18 @@ const EnrollComponent = (props) => {
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
         <div>
-          <p>You must login first before searching for courses.</p>
+          <p>您必須先登入。</p>
           <button
             className="btn btn-primary btn-lg"
             onClick={handleTakeToLogin}
           >
-            Take me to login page.
+            回到登入頁面
           </button>
         </div>
       )}
       {currentUser && currentUser.user.role == "instructor" && (
         <div>
-          <h1>Only students can enroll in courses.</h1>
+          <h1>只有學生才能註冊課程</h1>
         </div>
       )}
       {currentUser && currentUser.user.role == "student" && (
@@ -60,18 +62,19 @@ const EnrollComponent = (props) => {
             className="form-control"
           />
           <button onClick={handleSearch} className="btn btn-primary">
-            Search
+            搜尋課程
           </button>
         </div>
       )}
       {currentUser && searchResult && searchResult.length != 0 && (
         <div>
-          <p>我們從 API 返回的數據。</p>
+          <p>我們從 API 找到的課程</p>
           {searchResult.map((course) => (
             <div key={course._id} className="card" style={{ width: "18rem" }}>
               <div className="card-body">
                 <h5 className="card-title">課程名稱：{course.title}</h5>
                 <p className="card-text">{course.description}</p>
+                <p>講師名稱:{course.instructor.username}</p>
                 <p>價格: {course.price}</p>
                 <p>目前的學生人數: {course.students.length}</p>
                 <a

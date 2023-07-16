@@ -155,4 +155,23 @@ router.get("/:_id", async (req, res) => {
   }
 });
 
+// 用課程名稱尋找課程
+router.get("/findByName/:name", async (req, res) => {
+  let { name } = req.params;
+  try {
+    // { $regex: name }是只要title屬性中有name的document就會被抓到，不用全部的字都一樣
+    let courseFound = await Course.find({ title: { $regex: name } })
+      .populate("instructor", ["username", "email"])
+      .exec();
+
+    // let courseFound = await Course.find({ title: name })
+    // .populate("instructor", ["username", "email"])
+    // .exec();
+    return res.send(courseFound);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).send(e);
+  }
+});
+
 module.exports = router;
