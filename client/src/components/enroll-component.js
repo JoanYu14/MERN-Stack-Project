@@ -25,7 +25,11 @@ const EnrollComponent = (props) => {
         console.log(e);
       });
   };
+
+  // 註冊課程的a標籤被點擊的話就會執行這個function
   const handleEnroll = (e) => {
+    // 在課程的a標籤內有設定id為course._id，所以就把這個值當作argument給CourseService.enroll()
+    console.log(e.target.id);
     CourseService.enroll(e.target.id)
       .then(() => {
         window.alert("課程註冊成功。重新導向到課程頁面。");

@@ -135,6 +135,7 @@ router.get("/instructor/:_instructor_id", async (req, res) => {
 router.get("/student/:_student_id", async (req, res) => {
   let { _student_id } = req.params;
   try {
+    // 找到所有students陣列中有這個學生id的課程
     let courseFound = await Course.find({ students: _student_id })
       .populate("instructor", ["username", "email"])
       .exec();
@@ -170,6 +171,23 @@ router.get("/findByName/:name", async (req, res) => {
     return res.send(courseFound);
   } catch (e) {
     console.log(e);
+    return res.status(500).send(e);
+  }
+});
+
+// 讓學生透過課程id來註冊新課程
+router.post("/enroll/:_id", async (req, res) => {
+  let { _id } = req.params;
+  try {
+    // 把找到的課程document存在course裡面
+    let course = await Course.findOne({ _id });
+
+    // Request能到這個route代表他有帶著JWT
+    // 而在passport Jwt Strategy的done就會把那個人的資料(document)存在req.user裡
+    course.students.push(req.user._id); // course的students屬性是一個陣列(在courseSchema設定的)
+    await course.save(); // 把更改過的document儲存
+    return res.send("註冊完成");
+  } catch (e) {
     return res.status(500).send(e);
   }
 });

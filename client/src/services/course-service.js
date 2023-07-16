@@ -77,6 +77,28 @@ class CourseService {
       },
     });
   }
+
+  // 讓學生根據課程id註冊課程
+  enroll(_id) {
+    let token;
+
+    if (localStorage.getItem("user")) {
+      token = JSON.parse(localStorage.getItem("user")).token;
+    } else {
+      token = "";
+    }
+
+    // 第二個參數放空物件是因為這是一個POST Request，但我們沒有要給任何資料到server
+    return axios.post(
+      API_URL + "/enroll/" + _id,
+      {},
+      {
+        headers: {
+          Authorization: token, // axios會把JWT放在headers的Authorization內，這樣server端的JWT Strategy內的jwt_payload就能取得這個會員相關的資料(jwt的第二部分，username,email)
+        },
+      }
+    );
+  }
 }
 
 // import這個檔案就會得到這個Class製作的物件，物件內就有method
