@@ -9,14 +9,13 @@ const Joi = require("joi"); // 使用joi這個package來驗證使用者POST給�
 const passport = require("passport");
 require("./config/passport")(passport); // require的是一個function，馬上執行這個function且把passport套件帶入參數中
 const cors = require("cors");
+const path = require("path");
 
 // 連接到本機的MongoDB的exampleDB這個database
 mongoose
-  .connect("mongodb://127.0.0.1:27017/mernDB")
+  .connect(process.env.MONGODB_CONNECTION)
   .then(() => {
-    console.log(
-      "已成功連結到位於本機port 27017的mongoDB，並且連結到mongoDB中的mernDB這個database了"
-    );
+    console.log("已成功連結到MongoDB，並且連結到mongoDB了");
   })
   .catch((e) => {
     console.log(e);
@@ -26,6 +25,7 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.static(path.join(__dirname, "./client/build")));
 
 app.use("/api/user", authRoute);
 
@@ -38,7 +38,13 @@ app.use(
   courseRoute
 );
 
+// 網站首頁只有URL/而已，所以沒有被前面的route接收的話就會被這個route接收
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html")); // send client資料夾的build資料夾內的index.html檔案
+});
+
+const port = process.env.PORT || 8080; // cyclic.sh會自動設定process.env.PORT的值，且是動態設定的。如果沒有process.env.PORT就運行在port 8080
 // 3000是React預設的port
 app.listen(8080, () => {
-  console.log("後端伺服器運行在port 8080...");
+  console.log("後端伺服器正在運行");
 });
