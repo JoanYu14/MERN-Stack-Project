@@ -5,7 +5,7 @@ const API = "https://shy-lime-bandicoot-sari.cyclic.app/api/user"; // 後端伺�
 class AuthService {
   login(email, password) {
     console.log(axios);
-    return axios.post(API + "/login", { email, password });
+    return axios.post("/api/user/login/", { email, password });
   }
   logout() {
     localStorage.removeItem("user"); // 把存在使用者的LocalStorage中的key為user的資料刪掉
