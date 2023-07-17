@@ -1,11 +1,11 @@
 // 跟驗證有關的函式會放在這裡
 import axios from "axios";
-const API_URL = "https://shy-lime-bandicoot-sari.cyclic.app/api/user"; // 後端伺服器的處理user的URL
+const API = "https://shy-lime-bandicoot-sari.cyclic.app/api/user"; // 後端伺服器的處理user的URL
 
 class AuthService {
   login(email, password) {
     console.log(axios);
-    return axios.post(API_URL + "/login", { email, password });
+    return axios.post(API + "/login", { email, password });
   }
   logout() {
     localStorage.removeItem("user"); // 把存在使用者的LocalStorage中的key為user的資料刪掉
@@ -13,7 +13,7 @@ class AuthService {
   register(username, email, password, role) {
     // axios.post到這個URL，就是在server製作的負責處理註冊的route
     // axio.post會return一個Promise物件，所以register這個method被執行也會return一個Promise物件
-    return axios.post(API_URL + "/register", {
+    return axios.post(API + "/register", {
       username,
       email,
       password,

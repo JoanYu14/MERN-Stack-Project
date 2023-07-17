@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "https://shy-lime-bandicoot-sari.cyclic.app/api/course"; // 後端伺服器的處理course的URL
+const API = "https://shy-lime-bandicoot-sari.cyclic.app/api/course"; // 後端伺服器的處理course的URL
 
 class CourseService {
   // post這個method用來對server發出創建課程的Request
@@ -17,7 +17,7 @@ class CourseService {
     }
     // 這個CourseService.post這個method會return axios.post所回傳的Promise物件
     return axios.post(
-      API_URL,
+      API,
       { title, description, price },
       {
         headers: {
@@ -37,7 +37,7 @@ class CourseService {
       token = "";
     }
 
-    return axios.get(API_URL + "/student/" + _id, {
+    return axios.get(API + "/student/" + _id, {
       headers: {
         Authorization: token, // axios會把JWT放在headers的Authorization內，這樣server端的JWT Strategy內的jwt_payload就能取得這個會員相關的資料(jwt的第二部分，username,email)
       },
@@ -54,7 +54,7 @@ class CourseService {
       token = "";
     }
 
-    return axios.get(API_URL + "/instructor/" + _id, {
+    return axios.get(API + "/instructor/" + _id, {
       headers: {
         Authorization: token, // axios會把JWT放在headers的Authorization內，這樣server端的JWT Strategy內的jwt_payload就能取得這個會員相關的資料(jwt的第二部分，username,email)
       },
@@ -71,7 +71,7 @@ class CourseService {
       token = "";
     }
 
-    return axios.get(API_URL + "/findByName/" + name, {
+    return axios.get(API + "/findByName/" + name, {
       headers: {
         Authorization: token, // axios會把JWT放在headers的Authorization內，這樣server端的JWT Strategy內的jwt_payload就能取得這個會員相關的資料(jwt的第二部分，username,email)
       },
@@ -90,7 +90,7 @@ class CourseService {
 
     // 第二個參數放空物件是因為這是一個POST Request，但我們沒有要給任何資料到server
     return axios.post(
-      API_URL + "/enroll/" + _id,
+      API + "/enroll/" + _id,
       {},
       {
         headers: {
