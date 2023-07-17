@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "https://shy-lime-bandicoot-sari.cyclic.app/"; // 後端伺服器的處理course的URL
+const API_URL = "https://shy-lime-bandicoot-sari.cyclic.app"; // 後端伺服器的處理course的URL
 
 class CourseService {
   // post這個method用來對server發出創建課程的Request
