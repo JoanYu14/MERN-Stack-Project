@@ -4,6 +4,7 @@ const API_URL = "https://shy-lime-bandicoot-sari.cyclic.app/api/user"; // 後端
 
 class AuthService {
   login(email, password) {
+    console.log(axios);
     return axios.post(API_URL + "/login", { email, password });
   }
   logout() {
