@@ -1,6 +1,7 @@
 // 跟驗證有關的函式會放在這裡
 import axios from "axios";
 const API = "https://shy-lime-bandicoot-sari.cyclic.app/api/user"; // 後端伺服器的處理user的URL
+axios.defaults.baseURL = "https://shy-lime-bandicoot-sari.cyclic.app";
 
 class AuthService {
   login(email, password) {
