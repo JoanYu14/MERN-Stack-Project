@@ -14,76 +14,82 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
   // 用currentUser的值來決定nav標籤中要有什麼項目，新增課程與註冊課程還要判斷current.user.role是student還是instructor
   return (
     <div>
-      <nav>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <div className="container-fluid">
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#linkbar"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="linkbar">
+            <ul className="navbar-nav me-auto">
+              <li className="nav-item">
+                <Link className="nav-link active" to="/">
+                  首頁
+                </Link>
+              </li>
+
+              {!currentUser && (
                 <li className="nav-item">
-                  <Link className="nav-link active" to="/">
-                    首頁
+                  <Link className="nav-link" to="/register">
+                    註冊會員
                   </Link>
                 </li>
+              )}
 
-                {!currentUser && (
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/register">
-                      註冊會員
-                    </Link>
-                  </li>
-                )}
+              {!currentUser && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/login">
+                    會員登入
+                  </Link>
+                </li>
+              )}
 
-                {!currentUser && (
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/login">
-                      會員登入
-                    </Link>
-                  </li>
-                )}
+              {currentUser && (
+                <li className="nav-item">
+                  <Link onClick={handleLogout} className="nav-link" to="/">
+                    登出
+                  </Link>
+                </li>
+              )}
 
-                {currentUser && (
-                  <li className="nav-item">
-                    <Link onClick={handleLogout} className="nav-link" to="/">
-                      登出
-                    </Link>
-                  </li>
-                )}
+              {currentUser && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/profile">
+                    個人頁面
+                  </Link>
+                </li>
+              )}
 
-                {currentUser && (
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/profile">
-                      個人頁面
-                    </Link>
-                  </li>
-                )}
+              {currentUser && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/course">
+                    課程頁面
+                  </Link>
+                </li>
+              )}
 
-                {currentUser && (
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/course">
-                      課程頁面
-                    </Link>
-                  </li>
-                )}
+              {currentUser && currentUser.user.role == "instructor" && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/postCourse">
+                    新增課程
+                  </Link>
+                </li>
+              )}
 
-                {currentUser && currentUser.user.role == "instructor" && (
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/postCourse">
-                      新增課程
-                    </Link>
-                  </li>
-                )}
-
-                {currentUser && currentUser.user.role == "student" && (
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/enroll">
-                      註冊課程
-                    </Link>
-                  </li>
-                )}
-              </ul>
-            </div>
+              {currentUser && currentUser.user.role == "student" && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/enroll">
+                    註冊課程
+                  </Link>
+                </li>
+              )}
+            </ul>
           </div>
-        </nav>
+        </div>
       </nav>
     </div>
   );
