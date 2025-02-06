@@ -1,6 +1,10 @@
 // 跟驗證有關的函式會放在這裡
 import axios from "axios";
-const API = "https://shy-lime-bandicoot-sari.cyclic.app/api/user"; // 後端伺服器的處理user的URL
+
+// 1. 若是有部屬的話就不需要port號，用第一個
+const API = `${window.location.protocol}//${window.location.host}/api/user`;
+// 2. 若是在本地就可能需要port號，用第二個
+// const API = `${window.location.protocol}//${window.location.hostname}/api/user`;
 
 class AuthService {
   login(email, password) {

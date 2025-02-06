@@ -86,7 +86,7 @@ const PostCourseComponent = (props) => {
           />
           <br />
           <button className="btn btn-primary" onClick={postCourse}>
-            交出表單
+            發布新課程
           </button>
           <br />
           <br />

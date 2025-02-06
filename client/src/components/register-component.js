@@ -81,14 +81,24 @@ const RegisterComponent = () => {
         </div>
         <br />
         <div className="form-group">
-          <label htmlFor="password">身份：</label>
-          <input
-            onChange={handleRole}
-            type="text"
-            className="form-control"
-            placeholder="只能填入student或是instructor這兩個選項其一"
+          <label htmlFor="role">身份：</label>
+          <select
             name="role"
-          />
+            className="form-select form-select-lg mb-3"
+            aria-label=".form-select-lg example"
+            onChange={handleRole}
+            id="selectRole"
+          >
+            <option value={""} key={"option-null"}>
+              請選擇身份
+            </option>
+            <option value={"student"} key={"option-student"}>
+              學生
+            </option>
+            <option value={"instructor"} key={"option-instructor"}>
+              講師
+            </option>
+          </select>
         </div>
         <br />
         <button onClick={handleRegister} className="btn btn-primary">
