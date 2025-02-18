@@ -1,6 +1,8 @@
 # 師生課程網站
 
-## <a href="https://teacher-student-platform.onrender.com" target="blank">師生課程網站連結</a>
+## <a href="https://teacher-student-platform.onrender.com" target="blank">師生課程網站連結(若一段時間未使用，可能需要 1-2 分鐘)</a>
+
+由於部署使用 Render 免費方案，若一段時間未使用，伺服器可能需要 1-2 分鐘 來啟動，還請見諒
 
 ### 使用 MERN 架構製作一個專案，此網站是一個課程網站，講師可以創建課程，學生可以選擇要學習的課程。
 
