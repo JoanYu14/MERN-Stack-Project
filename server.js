@@ -10,7 +10,8 @@ const passport = require("passport");
 require("./config/passport")(passport); // require的是一個function，馬上執行這個function且把passport套件帶入參數中
 const cors = require("cors");
 const path = require("path");
-
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 // 連接到本機的MongoDB的exampleDB這個database
 mongoose
   .connect(process.env.MONGODB_CONNECTION)
@@ -20,11 +21,31 @@ mongoose
   .catch((e) => {
     console.log(e);
   });
-
+// 啟用 trust proxy
+app.set("trust proxy", 1); // 在Render，所以設為1
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+// 使用helmet
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // 禁用CSP如果前端有Inline Script可能需要關閉）
+    frameguard: { action: "sameorigin" }, // 防止點擊劫持（Clickjacking）
+    hidePoweredBy: true, // 隱藏Express預設的X-Powered-By頭
+    noSniff: true, // 防止MIME類型嗅探攻擊
+    xssFilter: true, // 啟用XSS防護
+    hsts: process.env.NODE_ENV === "production", // 在生產環境中啟用HSTS，否則允許 HTTP 連線
+    referrerPolicy: { policy: "no-referrer" }, // 限制 Referrer 資訊外洩
+  })
+);
+const limiter = rateLimit({
+  windowMs: 60 * 1000, // 1分鐘
+  max: 50, // 限制每個IP在1分鐘內最多50次請求
+  message: "Too many requests, please try again later.", // 超出限制時的回應訊息
+  headers: true, // 在回應中加上Rate Limit相關資訊
+});
+app.use(limiter);
 app.use(express.static(path.join(__dirname, "./client/build")));
 
 app.use("/api/user", authRoute);

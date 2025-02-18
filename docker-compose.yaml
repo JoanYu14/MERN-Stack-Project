@@ -1,0 +1,31 @@
+# Use root/example as user/password credentials
+
+services:
+  mongo:
+    image: mongo:8.0
+
+    networks:
+      - mern_web_network # 指定服務所連接的網絡名稱
+
+  web:
+    build: ./ # 指定 Dockerfile 所在的本地構建路徑
+    image: mern_web_code_docker # 構建的 Docker 映像名稱
+    networks:
+      - mern_web_network # 指定服務所連接的網絡名稱
+    ports:
+      - "80:8080" # 將主機的80端口映射到容器的8080端口
+
+    depends_on:
+      - mongo # 指定服務啟動順序，確保mongo服務在web服務之前啟動
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"] # 檢查容器內部的 HTTP 服務是否運行正常
+      interval: 15s # 健康檢查之間的時間間隔
+      timeout: 10s # 健康檢查超時的最大時間
+      retries: 3 # 嘗試重新檢查的次數
+      start_period: 10s # 在容器啟動後開始執行健康檢查的等待時間
+    environment:
+      - PASSPORT_SECRET=localSecret.
+      - MONGODB_CONNECTION=mongodb://mongo:27017/exampleDB?authSource=admin
+
+networks:
+  mern_web_network:
