@@ -6,6 +6,8 @@
 
 - 使用 Node.js 製作後端伺服器、使用 Express.js 伺服器框架、使用 React 前端框架、使用 MongoDB 資料庫
 - 使用 passport.js 做 JWT 認證，登入後 JWT 會存在客戶端的 Local Storage 中，按下登出則會清除 Local Storage
+- 使用 express-rate-limit 限制每個 IP 每分鐘最多請求 50 次
+- 使用 helmet 設定 HTTP 標頭，防範應用程式出現已知的 Web 漏洞
 - 部屬在 Render
 - 如果您註冊的是學生的話，請在註冊課程頁面點擊搜尋會出現當前所有課程，或者輸入課程名稱，會回傳模糊搜尋的結果。
 - 如果您註冊的是講師的話，可以在新增課程頁面創建課程。
